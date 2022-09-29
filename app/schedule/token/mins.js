@@ -3,7 +3,7 @@
 module.exports = app => {
     return {
         schedule: {
-            interval: '60s',
+            interval: '5m',
             type: 'worker',
         }, 
 

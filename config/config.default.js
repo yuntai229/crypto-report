@@ -45,7 +45,8 @@ module.exports = appInfo => {
         password: '',
         db: 0,
       }
-    }
+    },
+    cmcKey: 'e5709291-b3cd-4593-aa1f-712ba25514a2'
   };
 
   return {

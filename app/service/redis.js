@@ -3,12 +3,32 @@
 const Service = require('egg').Service
 
 class RedisService extends Service {
-    async updateTokenAddressList(tokenAddressList) {
+    async getListData(key) {
         try {
-            this.logger.info('[updateTokenAddressList] req: %s', JSON.stringify({ tokenAddressList }))
-            await this.app.redis.sadd('token_address_list', tokenAddressList);
+            this.logger.info('[updateTokenAddressList]')
+            const tokenAddressList = await this.app.redis.smembers(key);
+            return tokenAddressList
         } catch (err) {
-            this.logger.error('[updateTokenAddressList] req: %s, res: %s', JSON.stringify({ tokenAddressList }), err.message)
+            this.logger.error('[updateTokenAddressList] res: %s', err.message)
+        }
+    }
+
+    async setKeyList(key, list) {
+        try {
+            this.logger.info('[setKeyList] req: %s', JSON.stringify({ key, list }))
+            await this.app.redis.sadd(key, list);
+        } catch (err) {
+            this.logger.error('[setKeyList] req: %s, res: %s', JSON.stringify({ key, value }), err.message)
+        }
+    }
+
+    async setKey(key, value) {
+        try {
+            this.logger.info('[setKey] req: %s', JSON.stringify({ key, value }))
+            const tokenAddressList = await this.app.redis.set(key, value);
+            return tokenAddressList
+        } catch (err) {
+            this.logger.error('[setKey] req: %s, res: %s', JSON.stringify({ key, value }), err.message)
         }
     }
 }
