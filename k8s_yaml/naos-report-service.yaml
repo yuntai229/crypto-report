@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    cloud.google.com/neg: '{"ingress":true}'
+  creationTimestamp: "2022-09-29T08:39:39Z"
+  labels:
+    app: naos-report
+  managedFields:
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:labels:
+          .: {}
+          f:app: {}
+      f:spec:
+        f:internalTrafficPolicy: {}
+        f:ports:
+          .: {}
+          k:{"port":7000,"protocol":"TCP"}:
+            .: {}
+            f:port: {}
+            f:protocol: {}
+            f:targetPort: {}
+        f:selector: {}
+        f:sessionAffinity: {}
+        f:type: {}
+    manager: GoogleCloudConsole
+    operation: Update
+    time: "2022-09-29T08:39:39Z"
+  name: naos-report-service
+  namespace: default
+  resourceVersion: "29634802"
+  uid: 3e08e91d-b7f3-409a-91c8-67a0078fc354
+spec:
+  clusterIP: 10.69.128.108
+  clusterIPs:
+  - 10.69.128.108
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - port: 7000
+    protocol: TCP
+    targetPort: 7000
+  selector:
+    app: naos-report
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}
