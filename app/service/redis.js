@@ -5,11 +5,11 @@ const Service = require('egg').Service
 class RedisService extends Service {
     async getListData(key) {
         try {
-            this.logger.info('[updateTokenAddressList]')
+            this.logger.info('[getListData]')
             const tokenAddressList = await this.app.redis.smembers(key);
             return tokenAddressList
         } catch (err) {
-            this.logger.error('[updateTokenAddressList] res: %s', err.message)
+            this.logger.error('[getListData] res: %s', err.message)
         }
     }
 
