@@ -6,8 +6,8 @@ class RedisService extends Service {
     async getListData(key) {
         try {
             this.logger.info('[getListData]')
-            const tokenAddressList = await this.app.redis.smembers(key);
-            return tokenAddressList
+            const list = await this.app.redis.smembers(key);
+            return list
         } catch (err) {
             this.logger.error('[getListData] res: %s', err.message)
         }
@@ -25,8 +25,7 @@ class RedisService extends Service {
     async setKey(key, value) {
         try {
             this.logger.info('[setKey] req: %s', JSON.stringify({ key, value }))
-            const tokenAddressList = await this.app.redis.set(key, value);
-            return tokenAddressList
+            await this.app.redis.set(key, value);
         } catch (err) {
             this.logger.error('[setKey] req: %s, res: %s', JSON.stringify({ key, value }), err.message)
         }
