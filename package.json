@@ -8,10 +8,15 @@
   },
   "dependencies": {
     "egg": "^2",
+    "egg-redis": "^2.4.0",
     "egg-scripts": "^2",
     "egg-sequelize": "^6.0.0",
     "egg-validate": "^2.0.2",
-    "mysql2": "^2.3.3"
+    "i": "^0.3.7",
+    "moment": "^2.29.4",
+    "mysql2": "^2.3.3",
+    "npm": "^8.19.2",
+    "web3-eth-abi": "^1.8.0"
   },
   "devDependencies": {
     "autod": "^3",
@@ -26,7 +31,7 @@
     "node": ">=16.0.0"
   },
   "scripts": {
-    "start": "egg-scripts start --daemon --title=egg-server-naos-report",
+    "start": "egg-scripts start --port=7000 --title=egg-server-naos-report",
     "stop": "egg-scripts stop --title=egg-server-naos-report",
     "dev": "egg-bin dev",
     "debug": "egg-bin debug",
