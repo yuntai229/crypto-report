@@ -12,6 +12,10 @@ exports.sequelize = {
 };
 
 exports.redis = {
-  host: '10.253.111.163',
-  port: 6379,
+  client: {
+    host: '10.253.111.163',
+    port: 6379,
+    password: '',
+    db: 0,
+  }
 };
