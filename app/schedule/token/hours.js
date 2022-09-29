@@ -1,14 +1,20 @@
 'use strict'
 
-module.exports = app => {
-    return {
-        schedule: {
-            cron: '0 0 */3 * * *',
-            type: 'worker',
-        }, 
-        async task (ctx) {
-            await ctx.service.token.initTokenList()
-            await ctx.service.token.updateMarketCapHistory()
-        },  
-    };
+const Subscription = require('egg').Subscription;
+
+class Hours extends Subscription {
+    static get schedule() {
+        return {
+          //cron: '0 0 */3 * * *',
+          interval: '5s',
+          type: 'worker',
+        };
+    }
+
+    async subscribe() {
+        await this.service.token.initTokenAddressList()
+        await this.service.token.updateMarketCapHistory()
+    }
 }
+
+module.exports = Hours

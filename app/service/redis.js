@@ -30,6 +30,15 @@ class RedisService extends Service {
             this.logger.error('[setKey] req: %s, res: %s', JSON.stringify({ key, value }), err.message)
         }
     }
+
+    async getKey(key) {
+        try {
+            this.logger.info('[getKey] req: %s', JSON.stringify({ key }))
+            return await this.app.redis.get(key);
+        } catch (e) {
+            this.logger.error('[getKey] req: %s, res: %s', JSON.stringify({ key }), err.message)
+        }
+    }
 }
 
 module.exports = RedisService

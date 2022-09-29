@@ -6,7 +6,7 @@ const moment = require('moment')
 class TokenService extends Service {
     async initTokenAddressList() {
         try {
-            this.logger.info('[initTokenList]')
+            this.logger.info('[initTokenAddressList]')
             // get all token
             const tokenAddressList = []
             const allToken = await this.ctx.model.Token.getAll()
@@ -16,7 +16,7 @@ class TokenService extends Service {
             // update list
             await this.service.redis.setKeyList('token_address_list', tokenAddressList)
         } catch (err) {
-            this.logger.error('[initTokenList] res: %s', err.message)
+            this.logger.error('[initTokenAddressList] res: %s', err.message)
         }
     }
 
@@ -47,8 +47,9 @@ class TokenService extends Service {
             for (const item of tokenAddressList) {
                 const marketCaps = await this.service.api.cmc.getTokenInfo(item, days)
                 
-                const marketCapsHistory = Array.from(await this.service.redis.getListData(`history_${item}`))
-                if (marketCapsHistory.length < 48) {
+                const marketCapsHistory = await this.service.redis.getKey(`history_${item}`)
+                let marketCapsArr = []
+                if (marketCapsHistory === null) {
                     let beginIndex = 0
                     const index = []
                     const beginTimeStamp = moment().subtract(6, 'days').startOf('day').unix()
@@ -60,23 +61,25 @@ class TokenService extends Service {
                         }
                     }
                     for (let i = beginIndex; i < marketCaps.length; i += 3) {
-                        if (marketCapsHistory.length === 48) {
-                            marketCapsHistory.shift()
+                        if (marketCapsArr.length === 48) {
+                            marketCapsArr.shift()
                         }
-                        marketCapsHistory.push({
+                        marketCapsArr.push({
                             date: moment(marketCaps[i][0]).format('YYYY-MM-DD HH:mm:ss'),
                             marketCap: marketCaps[i][1]
                         }) 
                     }
                 } else {
+                    marketCapsArr = JSON.parse(marketCapsHistory).history
                     const currentMarketCaps = marketCaps.pop()
-                    marketCapsHistory.shift()
-                    marketCapsHistory.push({
+                    marketCapsArr.shift()
+                    marketCapsArr.push({
                         date: moment(currentMarketCaps[0]).format('YYYY-MM-DD HH:mm:ss'),
                         marketCap: currentMarketCaps[1]
                     })
                 }
-                await this.service.redis.setKeyList(`history_${item}`, marketCapsHistory)
+      
+                await this.service.redis.setKey(`history_${item}`, JSON.stringify({history: marketCapsArr}))
             }
         } catch (err) {
             this.logger.error('[updateMarketCapHistory] res: %s', err.message)
