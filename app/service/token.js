@@ -83,7 +83,7 @@ class TokenService extends Service {
             const tokenAddressList = await this.service.redis.getListData('token_address_list')
             const days = 7
             for (const item of tokenAddressList) {
-                await this.setHistoryMarketCap(tokenAddress, item)
+                await this.setHistoryMarketCap(item, days)
             }
         } catch (err) {
             this.logger.error('[updateMarketCapHistory] res: %s', err.message)
