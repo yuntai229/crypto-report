@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 exports.sequelize = {
   dialect: 'mysql',
@@ -17,5 +17,5 @@ exports.redis = {
     port: 6379,
     password: '',
     db: 0,
-  }
+  },
 };

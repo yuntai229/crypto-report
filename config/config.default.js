@@ -23,7 +23,7 @@ module.exports = appInfo => {
   };
 
   // add your middleware config here
-  config.middleware = ['accessLogger'];
+  config.middleware = [ 'accessLogger' ];
   config.accessLogger = {
     match: '/',
   };
@@ -31,7 +31,7 @@ module.exports = appInfo => {
   // add your user config here
   const userConfig = {
     // myAppName: 'egg',
-    sequelize : {
+    sequelize: {
       dialect: 'mysql',
       database: 'naos',
       username: 'root',
@@ -47,9 +47,9 @@ module.exports = appInfo => {
         port: 6378,
         password: '',
         db: 0,
-      }
+      },
     },
-    cmcKey: 'e5709291-b3cd-4593-aa1f-712ba25514a2'
+    cmcKey: 'e5709291-b3cd-4593-aa1f-712ba25514a2',
   };
 
   return {
