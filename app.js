@@ -7,6 +7,9 @@ class AppBookHook {
 
   async serverDidReady() {
     // init redis value
+    if (this.app.config.env === 'unittest') {
+      return;
+    }
     const ctx = await this.app.createAnonymousContext();
     await ctx.service.token.initTokenAddressList();
     await ctx.service.token.updateMarketCapHistory();
