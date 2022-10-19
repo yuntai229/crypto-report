@@ -138,28 +138,180 @@ describe('test/app/service/token.test.js', () => {
   describe('[Function] setHistoryMarketCap', () => {
     let apiCmcGetTokenInfo;
     let redisGetKey;
+    let redisSetKey;
+    let clock;
     beforeEach(() => {
       apiCmcGetTokenInfo = sinon.stub(ctx.service.api.cmc, 'getTokenInfo');
       redisGetKey = sinon.stub(ctx.service.redis, 'getKey');
+      redisSetKey = sinon.stub(ctx.service.redis, 'setKey');
+      clock = clock = sinon.useFakeTimers(1666191579000);
     });
     afterEach(() => {
       apiCmcGetTokenInfo.restore();
       redisGetKey.restore();
+      clock.restore();
     });
 
-    /* it('redis 有記錄', async () => {
-      ctx.service.api.cmc.getTokenInfo(() => {
-        return []
-      })
+    it('redis 有記錄', async () => {
+      ctx.service.api.cmc.getTokenInfo.callsFake(() => {
+        return [
+          [
+            1666152702345,
+            2314984.636774073,
+          ],
+          [
+            1666156228716,
+            2312412.490397777,
+          ],
+          [
+            1666159846241,
+            2310274.596421973,
+          ],
+          [
+            1666162854327,
+            2309222.5076192007,
+          ],
+          [
+            1666166660652,
+            2310092.3829915905,
+          ],
+          [
+            1666170189374,
+            2310446.523144649,
+          ],
+          [
+            1666173985013,
+            2309415.3639961486,
+          ],
+          [
+            1666177348274,
+            2307144.629794483,
+          ],
+          [
+            1666181284083,
+            2306342.2311084163,
+          ],
+          [
+            1666185083736,
+            2309555.0007808623,
+          ],
+          [
+            1666189484000,
+            2303387.0000323653,
+          ],
+        ];
+      });
       ctx.service.redis.getKey.callsFake(() => {
-        return null
-      })
-      const inputAddress = '0x4a615bb7166210cce20e6642a6f8fb5d4d044496'
-      const inputDays = 7
-      await ctx.service.token.setHistoryMarketCap()
-    }) */
-    /*     it('redis 無紀錄', async () => {
-
-    }) */
+        return null;
+      });
+      const inputAddress = '0x4a615bb7166210cce20e6642a6f8fb5d4d044496';
+      const inputDays = 7;
+      await ctx.service.token.setHistoryMarketCap(inputAddress, inputDays);
+      sinon.assert.callCount(redisSetKey, 1);
+    });
+    it('redis 無紀錄', async () => {
+      ctx.service.api.cmc.getTokenInfo.callsFake(() => {
+        return [
+          [
+            1666152702345,
+            2314984.636774073,
+          ],
+          [
+            1666156228716,
+            2312412.490397777,
+          ],
+          [
+            1666159846241,
+            2310274.596421973,
+          ],
+          [
+            1666162854327,
+            2309222.5076192007,
+          ],
+          [
+            1666166660652,
+            2310092.3829915905,
+          ],
+          [
+            1666170189374,
+            2310446.523144649,
+          ],
+          [
+            1666173985013,
+            2309415.3639961486,
+          ],
+          [
+            1666177348274,
+            2307144.629794483,
+          ],
+          [
+            1666181284083,
+            2306342.2311084163,
+          ],
+          [
+            1666185083736,
+            2309555.0007808623,
+          ],
+          [
+            1666189484000,
+            2303387.0000323653,
+          ],
+        ];
+      });
+      ctx.service.redis.getKey.callsFake(() => {
+        return JSON.stringify({
+          history: [
+            [
+              1666152702345,
+              2314984.636774073,
+            ],
+            [
+              1666156228716,
+              2312412.490397777,
+            ],
+            [
+              1666159846241,
+              2310274.596421973,
+            ],
+            [
+              1666162854327,
+              2309222.5076192007,
+            ],
+            [
+              1666166660652,
+              2310092.3829915905,
+            ],
+            [
+              1666170189374,
+              2310446.523144649,
+            ],
+            [
+              1666173985013,
+              2309415.3639961486,
+            ],
+            [
+              1666177348274,
+              2307144.629794483,
+            ],
+            [
+              1666181284083,
+              2306342.2311084163,
+            ],
+            [
+              1666185083736,
+              2309555.0007808623,
+            ],
+            [
+              1666189484000,
+              2303387.0000323653,
+            ],
+          ],
+        });
+      });
+      const inputAddress = '0x4a615bb7166210cce20e6642a6f8fb5d4d044496';
+      const inputDays = 7;
+      await ctx.service.token.setHistoryMarketCap(inputAddress, inputDays);
+      sinon.assert.callCount(redisSetKey, 1);
+    });
   });
 });
