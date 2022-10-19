@@ -16,6 +16,9 @@
     "moment": "^2.29.4",
     "mysql2": "^2.3.3",
     "npm": "^8.19.2",
+    "redis-mock": "^0.56.3",
+    "sinon": "^14.0.1",
+    "sqlite3": "^5.1.2",
     "web3-eth-abi": "^1.8.0"
   },
   "devDependencies": {
